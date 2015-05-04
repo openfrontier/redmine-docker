@@ -3,7 +3,7 @@ set -e
 
 PG_REDMINE_NAME=${PG_REDMINE_NAME:-pg-redmine}
 REDMINE_NAME=${REDMINE_NAME:-redmine}
-REDMINE_IMAGE_NAME=${REDMINE_IMAGE_NAME:sameersbn/redmine}
+REDMINE_IMAGE_NAME=${REDMINE_IMAGE_NAME:-sameersbn/redmine}
 
 docker run \
 --name ${PG_REDMINE_NAME} \
