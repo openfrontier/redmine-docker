@@ -16,7 +16,7 @@ docker run \
 
 while [ -z "$(docker logs ${PG_REDMINE_NAME} 2>&1 | grep 'autovacuum launcher started')" ]; do
     echo "Waiting postgres ready."
-    sleep 5
+    sleep 1
 done
 
 docker run \
