@@ -1,0 +1,320 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+SET search_path = public, pg_catalog;
+
+
+--
+-- TOC entry 2681 (class 0 OID 16413)
+-- Dependencies: 176
+-- Data for Name: auth_sources; Type: TABLE DATA; Schema: public; Owner: redmine
+--
+
+COPY auth_sources (id, type, name, host, port, account, account_password, base_dn, attr_login, attr_firstname, attr_lastname, attr_mail, onthefly_register, tls, filter, timeout) FROM stdin;
+1	AuthSourceLdap	openldap	{HOST_IP}	389			{LDAP_ACCOUNTBASE}	uid	displayName	uid	mail	t	f		\N
+\.
+
+
+--
+-- TOC entry 2775 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: auth_sources_id_seq; Type: SEQUENCE SET; Schema: public; Owner: redmine
+--
+
+SELECT pg_catalog.setval('auth_sources_id_seq', 1, true);
+
+
+--
+-- TOC entry 2691 (class 0 OID 16485)
+-- Dependencies: 186
+-- Data for Name: enumerations; Type: TABLE DATA; Schema: public; Owner: redmine
+--
+
+COPY enumerations (id, name, "position", is_default, type, active, project_id, parent_id, position_name) FROM stdin;
+1	Low	1	f	IssuePriority	t	\N	\N	lowest
+2	Normal	2	t	IssuePriority	t	\N	\N	default
+3	High	3	f	IssuePriority	t	\N	\N	high3
+4	Urgent	4	f	IssuePriority	t	\N	\N	high2
+5	Immediate	5	f	IssuePriority	t	\N	\N	highest
+6	User documentation	1	f	DocumentCategory	t	\N	\N	\N
+7	Technical documentation	2	f	DocumentCategory	t	\N	\N	\N
+8	Design	1	f	TimeEntryActivity	t	\N	\N	\N
+9	Development	2	f	TimeEntryActivity	t	\N	\N	\N
+\.
+
+
+--
+-- TOC entry 2785 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: enumerations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: redmine
+--
+
+SELECT pg_catalog.setval('enumerations_id_seq', 9, true);
+
+
+--
+-- TOC entry 2695 (class 0 OID 16521)
+-- Dependencies: 190
+-- Data for Name: issue_statuses; Type: TABLE DATA; Schema: public; Owner: redmine
+--
+
+COPY issue_statuses (id, name, is_closed, "position", default_done_ratio) FROM stdin;
+1	New	f	1	\N
+2	In Progress	f	2	\N
+3	Resolved	f	3	\N
+4	Feedback	f	4	\N
+5	Closed	t	5	\N
+6	Rejected	t	6	\N
+\.
+
+
+--
+-- TOC entry 2788 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: issue_statuses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: redmine
+--
+
+SELECT pg_catalog.setval('issue_statuses_id_seq', 6, true);
+
+
+--
+-- TOC entry 2705 (class 0 OID 16615)
+-- Dependencies: 200
+-- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: redmine
+--
+
+COPY roles (id, name, "position", assignable, builtin, permissions, issues_visibility, users_visibility) FROM stdin;
+3	Manager	3	t	0	---\n- :add_project\n- :edit_project\n- :close_project\n- :select_project_modules\n- :manage_members\n- :manage_versions\n- :add_subprojects\n- :manage_categories\n- :view_issues\n- :add_issues\n- :edit_issues\n- :copy_issues\n- :manage_issue_relations\n- :manage_subtasks\n- :set_issues_private\n- :set_own_issues_private\n- :add_issue_notes\n- :edit_issue_notes\n- :edit_own_issue_notes\n- :view_private_notes\n- :set_notes_private\n- :delete_issues\n- :manage_public_queries\n- :save_queries\n- :view_issue_watchers\n- :add_issue_watchers\n- :delete_issue_watchers\n- :log_time\n- :view_time_entries\n- :edit_time_entries\n- :edit_own_time_entries\n- :manage_project_activities\n- :manage_news\n- :comment_news\n- :add_documents\n- :edit_documents\n- :delete_documents\n- :view_documents\n- :manage_files\n- :view_files\n- :manage_wiki\n- :rename_wiki_pages\n- :delete_wiki_pages\n- :view_wiki_pages\n- :export_wiki_pages\n- :view_wiki_edits\n- :edit_wiki_pages\n- :delete_wiki_pages_attachments\n- :protect_wiki_pages\n- :manage_repository\n- :browse_repository\n- :view_changesets\n- :commit_access\n- :manage_related_issues\n- :manage_boards\n- :add_messages\n- :edit_messages\n- :edit_own_messages\n- :delete_messages\n- :delete_own_messages\n- :view_calendar\n- :view_gantt\n	all	all
+4	Developer	4	t	0	---\n- :manage_versions\n- :manage_categories\n- :view_issues\n- :add_issues\n- :edit_issues\n- :view_private_notes\n- :set_notes_private\n- :manage_issue_relations\n- :manage_subtasks\n- :add_issue_notes\n- :save_queries\n- :view_gantt\n- :view_calendar\n- :log_time\n- :view_time_entries\n- :comment_news\n- :view_documents\n- :view_wiki_pages\n- :view_wiki_edits\n- :edit_wiki_pages\n- :delete_wiki_pages\n- :add_messages\n- :edit_own_messages\n- :view_files\n- :manage_files\n- :browse_repository\n- :view_changesets\n- :commit_access\n- :manage_related_issues\n	default	all
+5	Reporter	5	t	0	---\n- :view_issues\n- :add_issues\n- :add_issue_notes\n- :save_queries\n- :view_gantt\n- :view_calendar\n- :log_time\n- :view_time_entries\n- :comment_news\n- :view_documents\n- :view_wiki_pages\n- :view_wiki_edits\n- :add_messages\n- :edit_own_messages\n- :view_files\n- :browse_repository\n- :view_changesets\n	default	all
+\.
+
+
+--
+-- TOC entry 2729 (class 0 OID 16798)
+-- Dependencies: 224
+-- Data for Name: settings; Type: TABLE DATA; Schema: public; Owner: redmine
+--
+
+COPY settings (id, name, value, updated_on) FROM stdin;
+1	login_required	0	{INIT_DATE}
+2	autologin	0	{INIT_DATE}
+3	self_registration	0	{INIT_DATE}
+4	unsubscribe	0	{INIT_DATE}
+5	password_min_length	8	{INIT_DATE}
+6	lost_password	0	{INIT_DATE}
+7	max_additional_emails	5	{INIT_DATE}
+8	openid	0	{INIT_DATE}
+9	rest_api_enabled	1	{INIT_DATE}
+10	jsonp_enabled	1	{INIT_DATE}
+11	session_lifetime	1440	{INIT_DATE}
+12	session_timeout	480	{INIT_DATE}
+\.
+
+
+--
+-- TOC entry 2802 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: settings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: redmine
+--
+
+SELECT pg_catalog.setval('settings_id_seq', 12, true);
+
+
+--
+-- TOC entry 2709 (class 0 OID 16635)
+-- Dependencies: 204
+-- Data for Name: trackers; Type: TABLE DATA; Schema: public; Owner: redmine
+--
+
+COPY trackers (id, name, is_in_chlog, "position", is_in_roadmap, fields_bits, default_status_id) FROM stdin;
+1	Bug	t	1	f	0	1
+2	Feature	t	2	t	0	1
+3	Support	f	3	f	0	1
+\.
+
+
+--
+-- TOC entry 2805 (class 0 OID 0)
+-- Dependencies: 203
+-- Name: trackers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: redmine
+--
+
+SELECT pg_catalog.setval('trackers_id_seq', 3, true);
+
+
+--
+-- TOC entry 2715 (class 0 OID 16677)
+-- Dependencies: 210
+-- Data for Name: workflows; Type: TABLE DATA; Schema: public; Owner: redmine
+--
+
+COPY workflows (id, tracker_id, old_status_id, new_status_id, role_id, assignee, author, type, field_name, rule) FROM stdin;
+1	1	1	2	3	f	f	WorkflowTransition	\N	\N
+2	1	1	3	3	f	f	WorkflowTransition	\N	\N
+3	1	1	4	3	f	f	WorkflowTransition	\N	\N
+4	1	1	5	3	f	f	WorkflowTransition	\N	\N
+5	1	1	6	3	f	f	WorkflowTransition	\N	\N
+6	1	2	1	3	f	f	WorkflowTransition	\N	\N
+7	1	2	3	3	f	f	WorkflowTransition	\N	\N
+8	1	2	4	3	f	f	WorkflowTransition	\N	\N
+9	1	2	5	3	f	f	WorkflowTransition	\N	\N
+10	1	2	6	3	f	f	WorkflowTransition	\N	\N
+11	1	3	1	3	f	f	WorkflowTransition	\N	\N
+12	1	3	2	3	f	f	WorkflowTransition	\N	\N
+13	1	3	4	3	f	f	WorkflowTransition	\N	\N
+14	1	3	5	3	f	f	WorkflowTransition	\N	\N
+15	1	3	6	3	f	f	WorkflowTransition	\N	\N
+16	1	4	1	3	f	f	WorkflowTransition	\N	\N
+17	1	4	2	3	f	f	WorkflowTransition	\N	\N
+18	1	4	3	3	f	f	WorkflowTransition	\N	\N
+19	1	4	5	3	f	f	WorkflowTransition	\N	\N
+20	1	4	6	3	f	f	WorkflowTransition	\N	\N
+21	1	5	1	3	f	f	WorkflowTransition	\N	\N
+22	1	5	2	3	f	f	WorkflowTransition	\N	\N
+23	1	5	3	3	f	f	WorkflowTransition	\N	\N
+24	1	5	4	3	f	f	WorkflowTransition	\N	\N
+25	1	5	6	3	f	f	WorkflowTransition	\N	\N
+26	1	6	1	3	f	f	WorkflowTransition	\N	\N
+27	1	6	2	3	f	f	WorkflowTransition	\N	\N
+28	1	6	3	3	f	f	WorkflowTransition	\N	\N
+29	1	6	4	3	f	f	WorkflowTransition	\N	\N
+30	1	6	5	3	f	f	WorkflowTransition	\N	\N
+31	2	1	2	3	f	f	WorkflowTransition	\N	\N
+32	2	1	3	3	f	f	WorkflowTransition	\N	\N
+33	2	1	4	3	f	f	WorkflowTransition	\N	\N
+34	2	1	5	3	f	f	WorkflowTransition	\N	\N
+35	2	1	6	3	f	f	WorkflowTransition	\N	\N
+36	2	2	1	3	f	f	WorkflowTransition	\N	\N
+37	2	2	3	3	f	f	WorkflowTransition	\N	\N
+38	2	2	4	3	f	f	WorkflowTransition	\N	\N
+39	2	2	5	3	f	f	WorkflowTransition	\N	\N
+40	2	2	6	3	f	f	WorkflowTransition	\N	\N
+41	2	3	1	3	f	f	WorkflowTransition	\N	\N
+42	2	3	2	3	f	f	WorkflowTransition	\N	\N
+43	2	3	4	3	f	f	WorkflowTransition	\N	\N
+44	2	3	5	3	f	f	WorkflowTransition	\N	\N
+45	2	3	6	3	f	f	WorkflowTransition	\N	\N
+46	2	4	1	3	f	f	WorkflowTransition	\N	\N
+47	2	4	2	3	f	f	WorkflowTransition	\N	\N
+48	2	4	3	3	f	f	WorkflowTransition	\N	\N
+49	2	4	5	3	f	f	WorkflowTransition	\N	\N
+50	2	4	6	3	f	f	WorkflowTransition	\N	\N
+51	2	5	1	3	f	f	WorkflowTransition	\N	\N
+52	2	5	2	3	f	f	WorkflowTransition	\N	\N
+53	2	5	3	3	f	f	WorkflowTransition	\N	\N
+54	2	5	4	3	f	f	WorkflowTransition	\N	\N
+55	2	5	6	3	f	f	WorkflowTransition	\N	\N
+56	2	6	1	3	f	f	WorkflowTransition	\N	\N
+57	2	6	2	3	f	f	WorkflowTransition	\N	\N
+58	2	6	3	3	f	f	WorkflowTransition	\N	\N
+59	2	6	4	3	f	f	WorkflowTransition	\N	\N
+60	2	6	5	3	f	f	WorkflowTransition	\N	\N
+61	3	1	2	3	f	f	WorkflowTransition	\N	\N
+62	3	1	3	3	f	f	WorkflowTransition	\N	\N
+63	3	1	4	3	f	f	WorkflowTransition	\N	\N
+64	3	1	5	3	f	f	WorkflowTransition	\N	\N
+65	3	1	6	3	f	f	WorkflowTransition	\N	\N
+66	3	2	1	3	f	f	WorkflowTransition	\N	\N
+67	3	2	3	3	f	f	WorkflowTransition	\N	\N
+68	3	2	4	3	f	f	WorkflowTransition	\N	\N
+69	3	2	5	3	f	f	WorkflowTransition	\N	\N
+70	3	2	6	3	f	f	WorkflowTransition	\N	\N
+71	3	3	1	3	f	f	WorkflowTransition	\N	\N
+72	3	3	2	3	f	f	WorkflowTransition	\N	\N
+73	3	3	4	3	f	f	WorkflowTransition	\N	\N
+74	3	3	5	3	f	f	WorkflowTransition	\N	\N
+75	3	3	6	3	f	f	WorkflowTransition	\N	\N
+76	3	4	1	3	f	f	WorkflowTransition	\N	\N
+77	3	4	2	3	f	f	WorkflowTransition	\N	\N
+78	3	4	3	3	f	f	WorkflowTransition	\N	\N
+79	3	4	5	3	f	f	WorkflowTransition	\N	\N
+80	3	4	6	3	f	f	WorkflowTransition	\N	\N
+81	3	5	1	3	f	f	WorkflowTransition	\N	\N
+82	3	5	2	3	f	f	WorkflowTransition	\N	\N
+83	3	5	3	3	f	f	WorkflowTransition	\N	\N
+84	3	5	4	3	f	f	WorkflowTransition	\N	\N
+85	3	5	6	3	f	f	WorkflowTransition	\N	\N
+86	3	6	1	3	f	f	WorkflowTransition	\N	\N
+87	3	6	2	3	f	f	WorkflowTransition	\N	\N
+88	3	6	3	3	f	f	WorkflowTransition	\N	\N
+89	3	6	4	3	f	f	WorkflowTransition	\N	\N
+90	3	6	5	3	f	f	WorkflowTransition	\N	\N
+91	1	1	2	4	f	f	WorkflowTransition	\N	\N
+92	1	1	3	4	f	f	WorkflowTransition	\N	\N
+93	1	1	4	4	f	f	WorkflowTransition	\N	\N
+94	1	1	5	4	f	f	WorkflowTransition	\N	\N
+95	1	2	3	4	f	f	WorkflowTransition	\N	\N
+96	1	2	4	4	f	f	WorkflowTransition	\N	\N
+97	1	2	5	4	f	f	WorkflowTransition	\N	\N
+98	1	3	2	4	f	f	WorkflowTransition	\N	\N
+99	1	3	4	4	f	f	WorkflowTransition	\N	\N
+100	1	3	5	4	f	f	WorkflowTransition	\N	\N
+101	1	4	2	4	f	f	WorkflowTransition	\N	\N
+102	1	4	3	4	f	f	WorkflowTransition	\N	\N
+103	1	4	5	4	f	f	WorkflowTransition	\N	\N
+104	2	1	2	4	f	f	WorkflowTransition	\N	\N
+105	2	1	3	4	f	f	WorkflowTransition	\N	\N
+106	2	1	4	4	f	f	WorkflowTransition	\N	\N
+107	2	1	5	4	f	f	WorkflowTransition	\N	\N
+108	2	2	3	4	f	f	WorkflowTransition	\N	\N
+109	2	2	4	4	f	f	WorkflowTransition	\N	\N
+110	2	2	5	4	f	f	WorkflowTransition	\N	\N
+111	2	3	2	4	f	f	WorkflowTransition	\N	\N
+112	2	3	4	4	f	f	WorkflowTransition	\N	\N
+113	2	3	5	4	f	f	WorkflowTransition	\N	\N
+114	2	4	2	4	f	f	WorkflowTransition	\N	\N
+115	2	4	3	4	f	f	WorkflowTransition	\N	\N
+116	2	4	5	4	f	f	WorkflowTransition	\N	\N
+117	3	1	2	4	f	f	WorkflowTransition	\N	\N
+118	3	1	3	4	f	f	WorkflowTransition	\N	\N
+119	3	1	4	4	f	f	WorkflowTransition	\N	\N
+120	3	1	5	4	f	f	WorkflowTransition	\N	\N
+121	3	2	3	4	f	f	WorkflowTransition	\N	\N
+122	3	2	4	4	f	f	WorkflowTransition	\N	\N
+123	3	2	5	4	f	f	WorkflowTransition	\N	\N
+124	3	3	2	4	f	f	WorkflowTransition	\N	\N
+125	3	3	4	4	f	f	WorkflowTransition	\N	\N
+126	3	3	5	4	f	f	WorkflowTransition	\N	\N
+127	3	4	2	4	f	f	WorkflowTransition	\N	\N
+128	3	4	3	4	f	f	WorkflowTransition	\N	\N
+129	3	4	5	4	f	f	WorkflowTransition	\N	\N
+130	1	1	5	5	f	f	WorkflowTransition	\N	\N
+131	1	2	5	5	f	f	WorkflowTransition	\N	\N
+132	1	3	5	5	f	f	WorkflowTransition	\N	\N
+133	1	4	5	5	f	f	WorkflowTransition	\N	\N
+134	1	3	4	5	f	f	WorkflowTransition	\N	\N
+135	2	1	5	5	f	f	WorkflowTransition	\N	\N
+136	2	2	5	5	f	f	WorkflowTransition	\N	\N
+137	2	3	5	5	f	f	WorkflowTransition	\N	\N
+138	2	4	5	5	f	f	WorkflowTransition	\N	\N
+139	2	3	4	5	f	f	WorkflowTransition	\N	\N
+140	3	1	5	5	f	f	WorkflowTransition	\N	\N
+141	3	2	5	5	f	f	WorkflowTransition	\N	\N
+142	3	3	5	5	f	f	WorkflowTransition	\N	\N
+143	3	4	5	5	f	f	WorkflowTransition	\N	\N
+144	3	3	4	5	f	f	WorkflowTransition	\N	\N
+\.
+
+
+--
+-- TOC entry 2815 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: workflows_id_seq; Type: SEQUENCE SET; Schema: public; Owner: redmine
+--
+
+SELECT pg_catalog.setval('workflows_id_seq', 144, true);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

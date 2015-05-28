@@ -1,0 +1,100 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+SET search_path = public, pg_catalog;
+
+
+--
+-- TOC entry 2756 (class 0 OID 17040)
+-- Dependencies: 251
+-- Data for Name: enabled_modules; Type: TABLE DATA; Schema: public; Owner: redmine
+--
+
+COPY enabled_modules (id, project_id, name) FROM stdin;
+1	1	issue_tracking
+2	1	time_tracking
+3	1	news
+4	1	documents
+5	1	files
+6	1	wiki
+7	1	repository
+8	1	boards
+9	1	calendar
+10	1	gantt
+\.
+
+
+--
+-- TOC entry 2784 (class 0 OID 0)
+-- Dependencies: 250
+-- Name: enabled_modules_id_seq; Type: SEQUENCE SET; Schema: public; Owner: redmine
+--
+
+SELECT pg_catalog.setval('enabled_modules_id_seq', 10, true);
+
+
+--
+-- TOC entry 2703 (class 0 OID 16599)
+-- Dependencies: 198
+-- Data for Name: projects; Type: TABLE DATA; Schema: public; Owner: redmine
+--
+
+COPY projects (id, name, description, homepage, is_public, parent_id, created_on, updated_on, identifier, status, lft, rgt, inherit_members) FROM stdin;
+1	demo			t	\N	{INIT_DATE}	{INIT_DATE}	demo	1	1	2	f
+\.
+
+
+--
+-- TOC entry 2798 (class 0 OID 0)
+-- Dependencies: 197
+-- Name: projects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: redmine
+--
+
+SELECT pg_catalog.setval('projects_id_seq', 1, true);
+
+
+--
+-- TOC entry 2757 (class 0 OID 17095)
+-- Dependencies: 252
+-- Data for Name: projects_trackers; Type: TABLE DATA; Schema: public; Owner: redmine
+--
+
+COPY projects_trackers (project_id, tracker_id) FROM stdin;
+1	1
+1	2
+1	3
+\.
+
+
+--
+-- TOC entry 2727 (class 0 OID 16785)
+-- Dependencies: 222
+-- Data for Name: repositories; Type: TABLE DATA; Schema: public; Owner: redmine
+--
+
+COPY repositories (id, project_id, url, login, password, root_url, type, path_encoding, log_encoding, extra_info, identifier, is_default, created_on) FROM stdin;
+1	1	/var/gerrit/review_site/git/demo.git			/var/gerrit/review_site/git/demo.git	Repository::Git		\N	---\nextra_report_last_commit: '0'\nheads:\n- \ndb_consistent:\n  ordering: 1\n		t	{INIT_DATE}
+\.
+
+
+--
+-- TOC entry 2800 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: repositories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: redmine
+--
+
+SELECT pg_catalog.setval('repositories_id_seq', 1, true);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
