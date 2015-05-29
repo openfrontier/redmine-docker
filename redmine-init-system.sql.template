@@ -117,6 +117,7 @@ COPY settings (id, name, value, updated_on) FROM stdin;
 10	jsonp_enabled	1	{INIT_DATE}
 11	session_lifetime	1440	{INIT_DATE}
 12	session_timeout	480	{INIT_DATE}
+13      commit_update_keywords  ---\n- status_id: '5'\n  done_ratio: '100'\n  keywords: fixed,fixes,fix\n       {INIT_DATE}
 \.
 
 
@@ -126,7 +127,7 @@ COPY settings (id, name, value, updated_on) FROM stdin;
 -- Name: settings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: redmine
 --
 
-SELECT pg_catalog.setval('settings_id_seq', 12, true);
+SELECT pg_catalog.setval('settings_id_seq', 13, true);
 
 
 --
