@@ -43,7 +43,7 @@ app:volume
 # Start Redmine.
 docker run \
 --name=${REDMINE_NAME} \
---link pg-redmine:postgresql \
+--link ${PG_REDMINE_NAME}:postgresql \
 -e DB_NAME=redmine \
 -e REDMINE_RELATIVE_URL_ROOT=/redmine \
 -e REDMINE_FETCH_COMMITS=hourly \
