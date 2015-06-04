@@ -40,7 +40,7 @@ docker run \
 ${REDMINE_IMAGE_NAME} \
 app:volume
 
-# Start Gerrit.
+# Start Redmine.
 docker run \
 --name=${REDMINE_NAME} \
 --link pg-redmine:postgresql \
