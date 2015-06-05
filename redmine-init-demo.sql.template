@@ -81,7 +81,7 @@ COPY projects_trackers (project_id, tracker_id) FROM stdin;
 --
 
 COPY repositories (id, project_id, url, login, password, root_url, type, path_encoding, log_encoding, extra_info, identifier, is_default, created_on) FROM stdin;
-1	1	/var/gerrit/review_site/git/demo.git			/var/gerrit/review_site/git/demo.git	Repository::Git		\N	---\nextra_report_last_commit: '0'\nheads:\n- \ndb_consistent:\n  ordering: 1\n		t	{INIT_DATE}
+1	1	/var/gerrit/review_site/git/demo.git				Repository::Git		\N	---\nextra_report_last_commit: '0'\n	demo	t	{INIT_DATE}
 \.
 
 
