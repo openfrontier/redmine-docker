@@ -36,9 +36,9 @@ done
 # Create Redmine volume.
 docker run \
 --name ${REDMINE_VOLUME} \
--v ~/redmine-docker/init:/app/init \
+--entrypoint="echo" \
 ${REDMINE_IMAGE_NAME} \
-app:volume
+"Create Redmine volume."
 
 # Start Redmine.
 docker run \
