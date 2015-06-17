@@ -5,7 +5,11 @@ PG_REDMINE_NAME=${PG_REDMINE_NAME:-pg-redmine}
 REDMINE_NAME=${REDMINE_NAME:-redmine}
 REDMINE_IMAGE_NAME=${REDMINE_IMAGE_NAME:-sameersbn/redmine}
 REDMINE_VOLUME=${REDMINE_VOLUME:-redmine-volume}
-GERRIT_VOLUME=${GERRIT_VOLUME:-gerrit-volume}
+GERRIT_NAME=${GERRIT_NAME:-gerrit}
+
+REDMINE_DB=${REDMINE_DB:-redmine}
+REDMINE_DB_USER=${REDMINE_DB_USER:-redmine}
+REDMINE_DB_PASS=${REDMINE_DB_PASS:-redmine}
 
 REDMINE_SYS_DATA_SQL=redmine-init-system.sql
 REDMINE_DEMO_DATA_SQL=redmine-init-demo.sql
@@ -20,10 +24,10 @@ sed -e "s/{INIT_DATE}/${INIT_DATE}/g" ~/redmine-docker/${REDMINE_DEMO_DATA_SQL}.
 # Start PostgreSQL.
 docker run \
 --name ${PG_REDMINE_NAME} \
--P \
--e POSTGRES_USER=redmine \
--e POSTGRES_PASSWORD=redmine \
--e POSTGRES_DB=redmine \
+-p 5432:5432 \
+-e POSTGRES_DB=${REDMINE_DB} \
+-e POSTGRES_USER=${REDMINE_DB_USER} \
+-e POSTGRES_PASSWORD=${REDMINE_DB_PASS} \
 -v ~/redmine-docker/${REDMINE_SYS_DATA_SQL}:/${REDMINE_SYS_DATA_SQL}:ro \
 -v ~/redmine-docker/${REDMINE_DEMO_DATA_SQL}:/${REDMINE_DEMO_DATA_SQL}:ro \
 -d postgres
@@ -36,6 +40,7 @@ done
 # Create Redmine volume.
 docker run \
 --name ${REDMINE_VOLUME} \
+--volumes-from ${GERRIT_NAME} \
 --entrypoint="echo" \
 ${REDMINE_IMAGE_NAME} \
 "Create Redmine volume."
@@ -43,10 +48,13 @@ ${REDMINE_IMAGE_NAME} \
 # Start Redmine.
 docker run \
 --name=${REDMINE_NAME} \
---link ${PG_REDMINE_NAME}:postgresql \
--e DB_NAME=redmine \
+-p 80:80 \
+-e DB_TYPE=postgres \
+-e DB_HOST=$(docker inspect -f '{{.Node.IP}}' ${PG_REDMINE_NAME}) \
+-e DB_NAME=${REDMINE_DB} \
+-e DB_USER=${REDMINE_DB_USER} \
+-e DB_PASS=${REDMINE_DB_PASS} \
 -e REDMINE_RELATIVE_URL_ROOT=/redmine \
 -e REDMINE_FETCH_COMMITS=hourly \
 --volumes-from ${REDMINE_VOLUME} \
---volumes-from ${GERRIT_VOLUME}:ro \
 -d ${REDMINE_IMAGE_NAME}
