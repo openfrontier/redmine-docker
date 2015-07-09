@@ -2,6 +2,7 @@
 set -e
 
 PG_REDMINE_NAME=${PG_REDMINE_NAME:-pg-redmine}
+POSTGRES_IMAGE=${POSTGRES_IMAGE:postgres}
 REDMINE_NAME=${REDMINE_NAME:-redmine}
 REDMINE_IMAGE_NAME=${REDMINE_IMAGE_NAME:-sameersbn/redmine}
 REDMINE_VOLUME=${REDMINE_VOLUME:-redmine-volume}
@@ -26,7 +27,7 @@ docker run \
 -e POSTGRES_DB=redmine \
 -v ~/redmine-docker/${REDMINE_SYS_DATA_SQL}:/${REDMINE_SYS_DATA_SQL}:ro \
 -v ~/redmine-docker/${REDMINE_DEMO_DATA_SQL}:/${REDMINE_DEMO_DATA_SQL}:ro \
--d postgres
+-d ${POSTGRES_IMAGE}
 
 while [ -z "$(docker logs ${PG_REDMINE_NAME} 2>&1 | grep 'autovacuum launcher started')" ]; do
     echo "Waiting postgres ready."
