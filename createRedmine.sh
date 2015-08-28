@@ -8,6 +8,7 @@ REDMINE_IMAGE_NAME=${REDMINE_IMAGE_NAME:-sameersbn/redmine}
 REDMINE_VOLUME=${REDMINE_VOLUME:-redmine-volume}
 GERRIT_VOLUME=${GERRIT_VOLUME:-gerrit-volume}
 
+NGINX_MAX_UPLOAD_SIZE=${NGINX_MAX_UPLOAD_SIZE:-200m}
 REDMINE_SYS_DATA_SQL=redmine-init-system.sql
 REDMINE_DEMO_DATA_SQL=redmine-init-demo.sql
 INIT_DATE=`date +%Y-%m-%d\ %H:%M:%S.%N|cut -c 1-26`
@@ -48,6 +49,7 @@ docker run \
 -e DB_NAME=redmine \
 -e REDMINE_RELATIVE_URL_ROOT=/redmine \
 -e REDMINE_FETCH_COMMITS=hourly \
+-e NGINX_MAX_UPLOAD_SIZE=${NGINX_MAX_UPLOAD_SIZE} \
 --volumes-from ${REDMINE_VOLUME} \
 --volumes-from ${GERRIT_VOLUME}:ro \
 -d ${REDMINE_IMAGE_NAME}
