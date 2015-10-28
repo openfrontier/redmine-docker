@@ -9,8 +9,16 @@ GERRIT_VOLUME=${GERRIT_VOLUME:-gerrit-volume}
 NGINX_MAX_UPLOAD_SIZE=${NGINX_MAX_UPLOAD_SIZE:-200m}
 
 # Stop and remove redmine container.
-docker stop ${REDMINE_NAME}
-docker rm -v ${REDMINE_NAME}
+if [ -z "$(docker ps -a | grep ${REDMINE_VOLUME})" ]; then
+  echo "${REDMINE_VOLUME} does not exist."
+  exit 1
+elif [ -z "$(docker ps -a | grep ${PG_REDMINE_NAME})" ]; then
+  echo "${PG_REDMINE_NAME} does not exist."
+  exit 1
+elif [ -n "$(docker ps -a | grep ${REDMINE_NAME} | grep -v ${REDMINE_VOLUME} | grep -v ${PG_REDMINE_NAME})" ]; then
+  docker stop ${REDMINE_NAME}
+  docker rm -v ${REDMINE_NAME}
+fi
 
 # Start Redmine.
 docker run \
