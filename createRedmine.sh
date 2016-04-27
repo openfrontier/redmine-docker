@@ -4,7 +4,7 @@ set -e
 PG_REDMINE_NAME=${PG_REDMINE_NAME:-pg-redmine}
 POSTGRES_IMAGE=${POSTGRES_IMAGE:-postgres}
 REDMINE_NAME=${REDMINE_NAME:-redmine}
-REDMINE_IMAGE_NAME=${REDMINE_IMAGE_NAME:-sameersbn/redmine}
+REDMINE_IMAGE_NAME=${REDMINE_IMAGE_NAME:-openfrontier/redmine:agile}
 REDMINE_VOLUME=${REDMINE_VOLUME:-redmine-volume}
 GERRIT_VOLUME=${GERRIT_VOLUME:-gerrit-volume}
 
