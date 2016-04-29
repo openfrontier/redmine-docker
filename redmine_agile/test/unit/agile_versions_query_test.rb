@@ -3,7 +3,7 @@
 # This file is a part of Redmin Agile (redmine_agile) plugin,
 # Agile board plugin for redmine
 #
-# Copyright (C) 2011-2015 RedmineCRM
+# Copyright (C) 2011-2016 RedmineCRM
 # http://www.redminecrm.com/
 #
 # redmine_agile is free software: you can redistribute it and/or modify
@@ -53,6 +53,7 @@ class AgileVersionsQueryTest < ActiveSupport::TestCase
         @query.project = Project.find(2)
     @backlog_version = Version.find(7)
     @current_version = Version.find(5)
+    User.current = User.find(1) #because issues selected according permissions
   end
 
   def test_backlog_version

@@ -3,7 +3,7 @@
 # This file is a part of Redmin Agile (redmine_agile) plugin,
 # Agile board plugin for redmine
 #
-# Copyright (C) 2011-2015 RedmineCRM
+# Copyright (C) 2011-2016 RedmineCRM
 # http://www.redminecrm.com/
 #
 # redmine_agile is free software: you can redistribute it and/or modify
@@ -47,10 +47,10 @@ class AgileVersionsControllerTest < ActionController::TestCase
            :queries
 
   def setup
-    
+
     @project_1 = Project.find(1)
     @project_3 = Project.find(5)
-    
+
     EnabledModule.create(:project => @project_1, :name => 'agile')
     EnabledModule.create(:project => @project_3, :name => 'agile')
 

@@ -3,7 +3,7 @@
 # This file is a part of Redmin Agile (redmine_agile) plugin,
 # Agile board plugin for redmine
 #
-# Copyright (C) 2011-2015 RedmineCRM
+# Copyright (C) 2011-2016 RedmineCRM
 # http://www.redminecrm.com/
 #
 # redmine_agile is free software: you can redistribute it and/or modify
@@ -139,6 +139,7 @@ module RedmineAgile
     :root_id => 1,
     :lock_version => 3,
     :estimated_hours => 3,
+    :agile_data_attributes => { :story_points => 10 }
     },
     {
     :project_id => 2,

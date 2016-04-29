@@ -3,7 +3,7 @@
 # This file is a part of Redmin Agile (redmine_agile) plugin,
 # Agile board plugin for redmine
 #
-# Copyright (C) 2011-2015 RedmineCRM
+# Copyright (C) 2011-2016 RedmineCRM
 # http://www.redminecrm.com/
 #
 # redmine_agile is free software: you can redistribute it and/or modify
@@ -41,5 +41,14 @@ module AgileVersionsHelper
 
   def estimated_hours(issue)
     "%.2fh" % issue.estimated_hours.to_f
+  end
+
+  def estimated_value(issue)
+    return (issue.story_points || 0) if RedmineAgile.use_story_points?
+    issue.estimated_hours.to_f || 0
+  end
+
+  def estimated_unit
+    RedmineAgile.use_story_points? ? 'sp' : 'h'
   end
 end

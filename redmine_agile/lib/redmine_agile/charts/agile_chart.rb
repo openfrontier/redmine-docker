@@ -1,7 +1,7 @@
 # This file is a part of Redmin Agile (redmine_agile) plugin,
 # Agile board plugin for redmine
 #
-# Copyright (C) 2011-2015 RedmineCRM
+# Copyright (C) 2011-2016 RedmineCRM
 # http://www.redminecrm.com/
 #
 # redmine_agile is free software: you can redistribute it and/or modify
@@ -51,7 +51,8 @@ module RedmineAgile
     end
 
     def due_date_period
-      @due_date_period ||= (@due_date ? @period_count - (@date_to - @due_date).to_i / @scale_division - 1: @period_count - 1) + 1
+      due_date = (@due_date && @due_date > @date_from) ? @due_date : @date_from
+      @due_date_period ||= (@due_date ? @period_count - (@date_to - due_date).to_i / @scale_division - 1: @period_count - 1) + 1
     end
 
     def date_effort(issues, effort_date)
@@ -73,9 +74,16 @@ module RedmineAgile
           issue.done_ratio.to_i
         end
 
-        cumulative_left += (issue.estimated_hours.to_f * ratio.to_f / 100.0)
-        total_left += (issue.estimated_hours.to_f * (100 - ratio.to_f) / 100.0)
-        total_done += (issue.estimated_hours.to_f * ratio.to_f / 100.0)
+        if RedmineAgile.use_story_points?
+          cumulative_left += (issue.story_points.to_f * ratio.to_f / 100.0)
+          total_left += (issue.story_points.to_f * (100 - ratio.to_f) / 100.0)
+          total_done += (issue.story_points.to_f * ratio.to_f / 100.0)
+        else
+          cumulative_left += (issue.estimated_hours.to_f * ratio.to_f / 100.0)
+          total_left += (issue.estimated_hours.to_f * (100 - ratio.to_f) / 100.0)
+          total_done += (issue.estimated_hours.to_f * ratio.to_f / 100.0)
+        end
+
       end
       [total_left, cumulative_left, total_done]
     end
@@ -107,7 +115,6 @@ module RedmineAgile
 
     def chart_periods
       raise Exception "Dates can't be blank" if [@date_to, @date_from].any?(&:blank?)
-
       period_count = (@date_to.to_date + 1 - @date_from.to_date).to_i
       scale_division = period_count > 31 ? period_count / 31.0 : 1
 
