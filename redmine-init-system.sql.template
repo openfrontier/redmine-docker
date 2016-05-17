@@ -105,29 +105,56 @@ COPY roles (id, name, "position", assignable, builtin, permissions, issues_visib
 --
 
 COPY settings (id, name, value, updated_on) FROM stdin;
-1	login_required	0	{INIT_DATE}
-2	autologin	0	{INIT_DATE}
-3	self_registration	0	{INIT_DATE}
-4	unsubscribe	0	{INIT_DATE}
-5	password_min_length	8	{INIT_DATE}
-6	lost_password	0	{INIT_DATE}
-7	max_additional_emails	5	{INIT_DATE}
-8	openid	0	{INIT_DATE}
-9	rest_api_enabled	1	{INIT_DATE}
-10	jsonp_enabled	1	{INIT_DATE}
-11	session_lifetime	1440	{INIT_DATE}
-12	session_timeout	480	{INIT_DATE}
-13	commit_update_keywords	---\n- status_id: '5'\n  done_ratio: '100'\n  keywords: fixed,fixes,fix\n	{INIT_DATE}
+1	app_title	Redmine	{INIT_DATE}
+2	welcome_text		{INIT_DATE}
+3	per_page_options	25,50,100	{INIT_DATE}
+4	search_results_per_page	10	{INIT_DATE}
+5	activity_days_default	30	{INIT_DATE}
+6	host_name	{HOST_NAME}/redmine	{INIT_DATE}
+7	protocol	http	{INIT_DATE}
+8	text_formatting	textile	{INIT_DATE}
+9	cache_formatted_text	0	{INIT_DATE}
+10	wiki_compression		{INIT_DATE}
+11	feeds_limit	15	{INIT_DATE}
+12	login_required	0	{INIT_DATE}
+13	autologin	0	{INIT_DATE}
+14	self_registration	0	{INIT_DATE}
+15	unsubscribe	0	{INIT_DATE}
+16	password_min_length	8	{INIT_DATE}
+17	password_max_age	0	{INIT_DATE}
+18	lost_password	0	{INIT_DATE}
+19	max_additional_emails	5	{INIT_DATE}
+20	openid	0	{INIT_DATE}
+21	session_lifetime	1440	{INIT_DATE}
+22	session_timeout	480	{INIT_DATE}
+23	default_users_hide_mail	1	{INIT_DATE}
+24	rest_api_enabled	1	{INIT_DATE}
+25	jsonp_enabled	1	{INIT_DATE}
+26	mail_from	redmine@{HOST_NAME}	{INIT_DATE}
+27	bcc_recipients	1	{INIT_DATE}
+28	plain_text_mail	0	{INIT_DATE}
+29	default_notification_option	only_my_events	{INIT_DATE}
+30	notified_events	---\n- issue_added\n- issue_updated\n	{INIT_DATE}
+31	emails_header		{INIT_DATE}
+32	emails_footer	You have received this notification because you have either subscribed to it, or are involved in it.\r\nTo change your notification preferences, please click here: http://{HOST_NAME}/redmine/my/account	{INIT_DATE}
+33	enabled_scm	---\n- Subversion\n- Darcs\n- Mercurial\n- Cvs\n- Bazaar\n- Git\n	{INIT_DATE}
+34	autofetch_changesets	1	{INIT_DATE}
+35	sys_api_enabled	0	{INIT_DATE}
+36	repository_log_display_limit	100	{INIT_DATE}
+37	commit_ref_keywords	refs,references,IssueID	{INIT_DATE}
+38	commit_cross_project_ref	0	{INIT_DATE}
+39	commit_logtime_enabled	0	{INIT_DATE}
+40	commit_update_keywords	---\n- status_id: '5'\n  done_ratio: '100'\n  keywords: fixed,fixes,fix\n	{INIT_DATE}
 \.
 
 
 --
--- TOC entry 2802 (class 0 OID 0)
--- Dependencies: 223
+-- TOC entry 3038 (class 0 OID 0)
+-- Dependencies: 232
 -- Name: settings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: redmine
 --
 
-SELECT pg_catalog.setval('settings_id_seq', 13, true);
+SELECT pg_catalog.setval('settings_id_seq', 40, true);
 
 
 --

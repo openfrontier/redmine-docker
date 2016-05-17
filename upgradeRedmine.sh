@@ -27,6 +27,11 @@ docker run \
 -e DB_NAME=redmine \
 -e REDMINE_RELATIVE_URL_ROOT=/redmine \
 -e REDMINE_FETCH_COMMITS=hourly \
+-e SMTP_DOMAIN=${HOST_NAME} \
+-e SMTP_HOST=${SMTP_SERVER} \
+-e SMTP_PORT=${SMTP_PORT} \
+-e SMTP_USER=${SMTP_USER} \
+-e SMTP_PASS=${SMTP_PASS} \
 -e NGINX_MAX_UPLOAD_SIZE=${NGINX_MAX_UPLOAD_SIZE} \
 --volumes-from ${REDMINE_VOLUME} \
 --volumes-from ${GERRIT_VOLUME}:ro \
