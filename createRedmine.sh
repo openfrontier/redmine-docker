@@ -13,6 +13,8 @@ REDMINE_SYS_DATA_SQL=redmine-init-system.sql
 REDMINE_DEMO_DATA_SQL=redmine-init-demo.sql
 INIT_DATE=`date +%Y-%m-%d\ %H:%M:%S.%N|cut -c 1-26`
 
+CI_NETWORK=${CI_NETWORK:-ci-network}
+
 # Redmine init data
 sed -e "s/{INIT_DATE}/${INIT_DATE}/g" ~/redmine-docker/${REDMINE_SYS_DATA_SQL}.template > ~/redmine-docker/${REDMINE_SYS_DATA_SQL}
 sed -i "s/{HOST_IP}/${LDAP_SERVER}/g" ~/redmine-docker/${REDMINE_SYS_DATA_SQL}
@@ -22,6 +24,7 @@ sed -e "s/{INIT_DATE}/${INIT_DATE}/g" ~/redmine-docker/${REDMINE_DEMO_DATA_SQL}.
 # Start PostgreSQL.
 docker run \
 --name ${PG_REDMINE_NAME} \
+--net ${CI_NETWORK} \
 -P \
 -e POSTGRES_USER=redmine \
 -e POSTGRES_PASSWORD=redmine \
@@ -45,8 +48,12 @@ ${REDMINE_IMAGE_NAME} \
 # Start Redmine.
 docker run \
 --name=${REDMINE_NAME} \
---link ${PG_REDMINE_NAME}:postgresql \
+--net ${CI_NETWORK} \
+-e DB_ADAPTER=postgresql \
+-e DB_HOST=${PG_REDMINE_NAME} \
 -e DB_NAME=redmine \
+-e DB_USER=redmine \
+-e DB_PASS=redmine \
 -e REDMINE_RELATIVE_URL_ROOT=/redmine \
 -e REDMINE_FETCH_COMMITS=hourly \
 -e NGINX_MAX_UPLOAD_SIZE=${NGINX_MAX_UPLOAD_SIZE} \
