@@ -59,6 +59,6 @@ docker run \
 -e REDMINE_FETCH_COMMITS=hourly \
 -e NGINX_MAX_UPLOAD_SIZE=${NGINX_MAX_UPLOAD_SIZE} \
 --volumes-from ${REDMINE_VOLUME} \
---volumes-from ${GERRIT_VOLUME}:ro \
+--volume ${GERRIT_VOLUME}:/var/gerrit/review_site:ro \
 --restart=unless-stopped \
 -d ${REDMINE_IMAGE_NAME}
