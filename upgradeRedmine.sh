@@ -30,4 +30,5 @@ docker run \
 -e NGINX_MAX_UPLOAD_SIZE=${NGINX_MAX_UPLOAD_SIZE} \
 --volumes-from ${REDMINE_VOLUME} \
 --volumes-from ${GERRIT_VOLUME}:ro \
+--restart=unless-stopped \
 -d ${REDMINE_IMAGE_NAME}

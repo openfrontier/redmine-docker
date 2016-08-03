@@ -31,6 +31,7 @@ docker run \
 -e POSTGRES_DB=redmine \
 -v ~/redmine-docker/${REDMINE_SYS_DATA_SQL}:/${REDMINE_SYS_DATA_SQL}:ro \
 -v ~/redmine-docker/${REDMINE_DEMO_DATA_SQL}:/${REDMINE_DEMO_DATA_SQL}:ro \
+--restart=unless-stopped \
 -d ${POSTGRES_IMAGE}
 
 while [ -z "$(docker logs ${PG_REDMINE_NAME} 2>&1 | grep 'autovacuum launcher started')" ]; do
@@ -59,4 +60,5 @@ docker run \
 -e NGINX_MAX_UPLOAD_SIZE=${NGINX_MAX_UPLOAD_SIZE} \
 --volumes-from ${REDMINE_VOLUME} \
 --volumes-from ${GERRIT_VOLUME}:ro \
+--restart=unless-stopped \
 -d ${REDMINE_IMAGE_NAME}
