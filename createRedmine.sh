@@ -5,7 +5,6 @@ PG_REDMINE_NAME=${PG_REDMINE_NAME:-pg-redmine}
 POSTGRES_IMAGE=${POSTGRES_IMAGE:-postgres}
 REDMINE_NAME=${REDMINE_NAME:-redmine}
 REDMINE_IMAGE_NAME=${REDMINE_IMAGE_NAME:-sameersbn/redmine}
-REDMINE_VOLUME=${REDMINE_VOLUME:-redmine-volume}
 GERRIT_VOLUME=${GERRIT_VOLUME:-gerrit-volume}
 
 NGINX_MAX_UPLOAD_SIZE=${NGINX_MAX_UPLOAD_SIZE:-200m}
@@ -41,11 +40,8 @@ while [ -z "$(docker logs ${PG_REDMINE_NAME} 2>&1 | grep 'autovacuum launcher st
 done
 
 # Create Redmine volume.
-docker run \
---name ${REDMINE_VOLUME} \
---entrypoint="echo" \
-${REDMINE_IMAGE_NAME} \
-"Create Redmine volume."
+docker volume create --name redmine-data-volume
+docker volume create --name redmine-log-volume
 
 # Start Redmine.
 docker run \
@@ -64,7 +60,8 @@ docker run \
 -e SMTP_USER=${SMTP_USER} \
 -e SMTP_PASS=${SMTP_PASS} \
 -e NGINX_MAX_UPLOAD_SIZE=${NGINX_MAX_UPLOAD_SIZE} \
---volumes-from ${REDMINE_VOLUME} \
---volumes-from ${GERRIT_VOLUME}:ro \
+--volume redmine-log-volume:/var/log/redmine \
+--volume redmine-data-volume:/home/redmine/data \
+--volume ${GERRIT_VOLUME}:/var/gerrit/review_site:ro \
 --restart=unless-stopped \
 -d ${REDMINE_IMAGE_NAME}
